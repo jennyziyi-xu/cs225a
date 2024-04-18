@@ -109,18 +109,18 @@ int main() {
 	// *************************************************************************
 
 	// ---------------------------  question 2-b -------------------------------
-	ee_pos_in_link = Vector3d(0.0, 0.0, 0.0); // modify this
+	ee_pos_in_link = Vector3d(0.0, 0.0, 2.5); // modify this
 
 	// ---------------------------  question 2-c -------------------------------
 	// part i
-	robot_q << 0.0, 0.0, 0.0; // modify this
+	robot_q << 0.0, 0.5, - M_PI / 2; // modify this
 	robot->setQ(robot_q);
 	robot->updateKinematics();
 	ee_position = robot->position(ee_link_name, ee_pos_in_link);
 	cout << "========================================= Q2-c-i" << endl << endl;
 	cout << "End effector position for configuration i\n" << ee_position.transpose() << endl << endl;
 	// part ii
-	robot_q << 0.0, 0.0, 0.0; // modify this
+	robot_q << M_PI / 2, 0.5, - M_PI / 2; // modify this
 	robot->setQ(robot_q);
 	robot->updateKinematics();
 	ee_position = robot->position(ee_link_name, ee_pos_in_link);
@@ -129,14 +129,14 @@ int main() {
 
 	// ---------------------------  question 2-d -------------------------------
 	// part i
-	robot_q << 0.0, 0.0, 0.0; // modify this
+	robot_q << 0.0, 0.5, - M_PI / 2; // modify this
 	robot->setQ(robot_q);
 	robot->updateKinematics();
 	ee_jacobian = robot->Jv(ee_link_name, ee_pos_in_link);
 	cout << "========================================= Q2-d-ii" << endl << endl;
 	cout << "Jv for configuration d-i\n" << ee_jacobian << endl << endl;
 	// part ii
-	robot_q << 0.0, 0.0, 0.0; // modify this
+	robot_q << M_PI / 2, 0.5, - M_PI / 2; // modify this
 	robot->setQ(robot_q);
 	robot->updateKinematics();
 	ee_jacobian = robot->Jv(ee_link_name, ee_pos_in_link);
@@ -145,63 +145,136 @@ int main() {
 
 	// ---------------------------  question 2-e -------------------------------
 	// part i
+	// This file stores the entire mass matrix
 	ofstream file_2e_i;
-	file_2e_i.open("../../hw0/data_files/q2-e-i.txt");
-	robot_q << 0.0, 0.0, 0.0; // modify this
+	file_2e_i.open("../../homework/hw0/data_files/q2-e-i.txt");
+	
+	// This file stores only the diagonal elements of the mass matrix, used for plotting. 
+	ofstream file_2e_i_diagonal;
+	file_2e_i_diagonal.open("../../homework/hw0/data_files/q2-e-i_diagonal.txt");
+
+	robot_q << 0.0, 0.5, -M_PI / 2; // modify this
 	robot->setQ(robot_q);
 	robot->updateModel();
-	file_2e_i << 0 << "\t" << 0 << "\t" << 0 << "\n"; // modify this
+	file_2e_i << 0 << "\t" << 0.5 << "\t" << -M_PI / 2 << "\n"; // modify this
+	file_2e_i_diagonal << -M_PI / 2 << "\t"; 
 	int n_steps = 250;
 	for(int i=0 ; i < n_steps ; i++)
 	{
 		// write your code
+		float step_size = M_PI / (n_steps - 1);
+		file_2e_i << "\t" << "\t" << "\t" << robot->M()(0,0) <<  "\t" << robot->M()(0,1) << "\t" << robot->M()(0,2) << "\n";
+		file_2e_i <<  "\t" << "\t" << "\t" << robot->M()(1,0) <<  "\t" << robot->M()(1,1) << "\t" << robot->M()(1,2) << "\n";
+		file_2e_i <<  "\t" << "\t" << "\t" <<robot->M()(2,0) <<  "\t" << robot->M()(2,1) << "\t" << robot->M()(2,2) << "\n";
+		file_2e_i_diagonal << robot->M()(0,0) << "\t"  << robot->M()(1,1) <<  "\t" << robot->M()(2,2) << "\n";
+		robot_q << 0.0, 0.5, -M_PI / 2 + step_size * (i+1); 
+		robot->setQ(robot_q);
+		robot->updateModel();
+		file_2e_i << 0 << "\t" << 0.5 << "\t" << -M_PI / 2 + step_size * (i+1) << "\n"; 
+		file_2e_i_diagonal << -M_PI / 2 + step_size * (i+1)  << "\t"; 
+
 	}
 	file_2e_i.close();
+	file_2e_i_diagonal.close();
 
 	// part ii
 	ofstream file_2e_ii;
-	file_2e_ii.open("../../hw0/data_files/q2-e-ii.txt");
+	file_2e_ii.open("../../homework/hw0/data_files/q2-e-ii.txt");
+
+	// This file stores only the diagonal elements of the mass matrix, used for plotting. 
+	ofstream file_2e_ii_diagonal;
+	file_2e_ii_diagonal.open("../../homework/hw0/data_files/q2-e-ii_diagonal.txt");
+
 	robot_q << 0.0, 0.0, 0.0; // modify this
+
 	robot->setQ(robot_q);
 	robot->updateModel();
-	file_2e_ii << 0 << "\t" << 0 << "\t" << 0 << "\n"; // modify this
+	file_2e_ii << 0 << "\t" << 0 << "\t" << 0 << "\n"; 
+	file_2e_ii_diagonal << 0 <<  "\t" ;
 	n_steps = 250;
 	for(int i=0 ; i < n_steps ; i++)
 	{
 		// write your code
+		float step_size = (float)2 / (float)(n_steps - 1);
+		file_2e_ii << robot->M() << endl;
+		file_2e_ii_diagonal << robot->M()(0,0) << "\t"  << robot->M()(1,1) <<  "\t" << robot->M()(2,2) << "\n";
+		robot_q << 0.0, (i+1) * step_size, 0; 
+		robot->setQ(robot_q);
+		robot->updateModel();
+		file_2e_ii << 0 << "\t" << (i+1) * step_size << "\t" << 0 << "\n"; 
+		file_2e_ii_diagonal << (i+1) * step_size << "\t"; 
 	}
 	file_2e_ii.close();
+	file_2e_ii_diagonal.close();
 
 	// ---------------------------  question 2-f -------------------------------
 	// part i
 	ofstream file_2f_i;
-	file_2f_i.open("../../hw0/data_files/q2-f-i.txt");
-	robot_q << 0.0, 0.0, 0.0; // modify this
+	file_2f_i.open("../../homework/hw0/data_files/q2-f-i.txt");
+
+	// This file stores only the diagonal elements of the mass matrix, used for plotting. 
+	ofstream file_2f_i_diagonal;
+	file_2f_i_diagonal.open("../../homework/hw0/data_files/q2-f-i_diagonal.txt");
+
+	robot_q << 0.0, 0.5, -M_PI / 2; // modify this
 	robot->setQ(robot_q);
 	robot->updateModel();
+	file_2f_i << 0 << "\t" << 0.5 << "\t" << -M_PI / 2 << "\n"; // modify this
+	file_2f_i_diagonal << -M_PI / 2 << "\t"; 
 	g = robot->jointGravityVector();
 	file_2f_i << g.transpose() << "\n";
+	file_2f_i_diagonal << g.transpose()(0) << "\t" << g.transpose()(1) << "\t" << g.transpose()(2) << "\n";
 	n_steps = 250;
 	for(int i=0 ; i < n_steps ; i++)
 	{
 		// write your code
+		float step_size = M_PI / (n_steps);
+		file_2f_i << 0 << "\t" << 0.5 << "\t" << -M_PI / 2 + step_size * (i+1) << "\n"; 
+		file_2f_i_diagonal << -M_PI / 2 + step_size * (i+1)  << "\t";
+		robot_q << 0.0, 0.5, -M_PI / 2 + step_size * (i+1); 
+		robot->setQ(robot_q);
+		robot->updateModel();
+		g = robot->jointGravityVector();
+		file_2f_i << g.transpose() << "\n";
+		file_2f_i_diagonal << g.transpose()(0) << "\t" << g.transpose()(1) << "\t" << g.transpose()(2) << "\n";
 	}
 	file_2f_i.close();
+	file_2f_i_diagonal.close();
 
 	// part ii
 	ofstream file_2f_ii;
-	file_2f_ii.open("../../hw0/data_files/q2-f-ii.txt");
+	file_2f_ii.open("../../homework/hw0/data_files/q2-f-ii.txt");
+
+	// This file stores only the diagonal elements of the mass matrix, used for plotting. 
+	ofstream file_2f_ii_diagonal;
+	file_2f_ii_diagonal.open("../../homework/hw0/data_files/q2-f-ii_diagonal.txt");
+
+
 	robot_q << 0.0, 0.0, 0.0; // modify this
 	robot->setQ(robot_q);
 	robot->updateModel();
+	file_2f_ii << 0 << "\t" << 0 << "\t" << 0 << "\n"; // modify this
+	file_2f_ii_diagonal << 0 << "\t"; 
 	g = robot->jointGravityVector();
 	file_2f_ii << g.transpose() << "\n";
+	file_2f_ii_diagonal << g.transpose()(0) << "\t" << g.transpose()(1) << "\t" << g.transpose()(2) << "\n";
 	n_steps = 250;
 	for(int i=0 ; i < n_steps ; i++)
 	{
 		// write your code
+		float step_size = (float)2 / (float)(n_steps);
+		file_2f_ii << 0 << "\t" << (i+1) * step_size << "\t" << 0<< "\n"; 
+		file_2f_ii_diagonal << (i+1) * step_size  << "\t";
+		robot_q << 0.0, step_size * (i+1), 0 ; 
+		robot->setQ(robot_q);
+		robot->updateModel();
+		g = robot->jointGravityVector();
+		file_2f_ii << g.transpose() << "\n";
+		file_2f_ii_diagonal << g.transpose()(0) << "\t" << g.transpose()(1) << "\t" << g.transpose()(2) << "\n";
+
 	}
 	file_2f_ii.close();
+	file_2f_ii_diagonal.close();
 
 	// -----------------  question 2-g : extra credit--------------------------
 	// extra credit
