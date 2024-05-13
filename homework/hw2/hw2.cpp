@@ -183,35 +183,35 @@ int main(int argc, char** argv) {
 
             // part a) 
 
-            Vector3d ee_pos = robot->position(link_name, pos_in_link);
-            VectorXd robot_q_pos  = robot->q();
-            file_2 << time << "\t" << ee_pos(0)  << "\t" << ee_pos(1) << "\t" << ee_pos(2) << "\t" << robot_q_pos(0) << "\t" << robot_q_pos(1) << "\t" << robot_q_pos(2) << "\t" << robot_q_pos(3) << "\t" << robot_q_pos(4) << "\t" << robot_q_pos(5)  << "\t" << robot_q_pos(6) << "\n"; 
-            double kp = 200.0;      
-            double kv = 45.0;      
-            control_torques.setZero();
-            Vector3d pos_desired = Vector3d(0.3, 0.1, 0.5); 
+            // Vector3d ee_pos = robot->position(link_name, pos_in_link);
+            // VectorXd robot_q_pos  = robot->q();
+            // file_2 << time << "\t" << ee_pos(0)  << "\t" << ee_pos(1) << "\t" << ee_pos(2) << "\t" << robot_q_pos(0) << "\t" << robot_q_pos(1) << "\t" << robot_q_pos(2) << "\t" << robot_q_pos(3) << "\t" << robot_q_pos(4) << "\t" << robot_q_pos(5)  << "\t" << robot_q_pos(6) << "\n"; 
+            // double kp = 200.0;      
+            // double kv = 45.0;      
+            // control_torques.setZero();
+            // Vector3d pos_desired = Vector3d(0.3, 0.1, 0.5); 
 
-            Jv = robot->Jv(link_name, pos_in_link);
-	        Lambda = robot->taskInertiaMatrix(Jv);
+            // Jv = robot->Jv(link_name, pos_in_link);
+	        // Lambda = robot->taskInertiaMatrix(Jv);
 
-            VectorXd F = Lambda * (-kp * (robot->position(link_name, pos_in_link) - pos_desired) - kv * robot->linearVelocity(link_name, pos_in_link));
-            control_torques  = Jv.transpose() * F + robot->jointGravityVector();
+            // VectorXd F = Lambda * (-kp * (robot->position(link_name, pos_in_link) - pos_desired) - kv * robot->linearVelocity(link_name, pos_in_link));
+            // control_torques  = Jv.transpose() * F + robot->jointGravityVector();
 
-            // part c)
-            Vector3d ee_pos = robot->position(link_name, pos_in_link);
-            VectorXd robot_q_pos  = robot->q();
-            file_2_c << time << "\t" << ee_pos(0)  << "\t" << ee_pos(1) << "\t" << ee_pos(2) << "\t" << robot_q_pos(0) << "\t" << robot_q_pos(1) << "\t" << robot_q_pos(2) << "\t" << robot_q_pos(3) << "\t" << robot_q_pos(4) << "\t" << robot_q_pos(5)  << "\t" << robot_q_pos(6) << "\n"; 
-            double kp = 200.0;      
-            double kv = 45.0;      
-            double kvj = 8;
-            control_torques.setZero();
-            Vector3d pos_desired = Vector3d(0.3, 0.1, 0.5); 
+            // // part c)
+            // Vector3d ee_pos = robot->position(link_name, pos_in_link);
+            // VectorXd robot_q_pos  = robot->q();
+            // file_2_c << time << "\t" << ee_pos(0)  << "\t" << ee_pos(1) << "\t" << ee_pos(2) << "\t" << robot_q_pos(0) << "\t" << robot_q_pos(1) << "\t" << robot_q_pos(2) << "\t" << robot_q_pos(3) << "\t" << robot_q_pos(4) << "\t" << robot_q_pos(5)  << "\t" << robot_q_pos(6) << "\n"; 
+            // double kp = 200.0;      
+            // double kv = 45.0;      
+            // double kvj = 8;
+            // control_torques.setZero();
+            // Vector3d pos_desired = Vector3d(0.3, 0.1, 0.5); 
 
-            Jv = robot->Jv(link_name, pos_in_link);
-	        Lambda = robot->taskInertiaMatrix(Jv);
+            // Jv = robot->Jv(link_name, pos_in_link);
+	        // Lambda = robot->taskInertiaMatrix(Jv);
 
-            VectorXd F = Lambda * (-kp * (robot->position(link_name, pos_in_link) - pos_desired) - kv * robot->linearVelocity(link_name, pos_in_link));
-            control_torques  = Jv.transpose() * F + robot->jointGravityVector() - kvj * robot->dq();
+            // VectorXd F = Lambda * (-kp * (robot->position(link_name, pos_in_link) - pos_desired) - kv * robot->linearVelocity(link_name, pos_in_link));
+            // control_torques  = Jv.transpose() * F + robot->jointGravityVector() - kvj * robot->dq();
 
             
             //part d
@@ -259,88 +259,88 @@ int main(int argc, char** argv) {
         // ---------------------------  question 4 ---------------------------------------
         else if(controller_number == 4) {
 
-            control_torques.setZero();
+            // control_torques.setZero();
 
-            // part i
+            // // part i
 
-            Vector3d ee_pos = robot->position(link_name, pos_in_link);
-            VectorXd robot_q_pos  = robot->q();
-            file_4_i << time << "\t" << ee_pos(0)  << "\t" << ee_pos(1) << "\t" << ee_pos(2) << "\t" << robot_q_pos(0) << "\t" << robot_q_pos(1) << "\t" << robot_q_pos(2) << "\t" << robot_q_pos(3) << "\t" << robot_q_pos(4) << "\t" << robot_q_pos(5)  << "\t" << robot_q_pos(6) << "\n"; 
+            // Vector3d ee_pos = robot->position(link_name, pos_in_link);
+            // VectorXd robot_q_pos  = robot->q();
+            // file_4_i << time << "\t" << ee_pos(0)  << "\t" << ee_pos(1) << "\t" << ee_pos(2) << "\t" << robot_q_pos(0) << "\t" << robot_q_pos(1) << "\t" << robot_q_pos(2) << "\t" << robot_q_pos(3) << "\t" << robot_q_pos(4) << "\t" << robot_q_pos(5)  << "\t" << robot_q_pos(6) << "\n"; 
 
-            double kp = 250.0;      
-            double kv = 45.0;      // chose your d gain
-            double kvj = 10;
+            // double kp = 250.0;      
+            // double kv = 45.0;      // chose your d gain
+            // double kvj = 10;
 
-            Vector3d pos_desired = Vector3d(0.3, 0.1, 0.5) + 0.1 * Vector3d(sin(M_PI * time), cos(M_PI * time), 0); 
-            Jv = robot->Jv(link_name, pos_in_link);
-            Lambda = robot->taskInertiaMatrix(Jv);
-            J_bar = robot->dynConsistentInverseJacobian(Jv);
-            N = robot->nullspaceMatrix(Jv);
-            VectorXd p = J_bar.transpose() * robot->jointGravityVector();
-            VectorXd F = Lambda * (kp * (pos_desired - robot->position(link_name, pos_in_link)) - kv * robot->linearVelocity(link_name, pos_in_link)) + p;
-            control_torques = Jv.transpose() * F - N.transpose() * robot->M() * kvj * robot->dq();
-
-
-            // part ii
-
-            Vector3d ee_pos = robot->position(link_name, pos_in_link);
-            VectorXd robot_q_pos  = robot->q();
-            file_4_ii << time << "\t" << ee_pos(0)  << "\t" << ee_pos(1) << "\t" << ee_pos(2) << "\t" << robot_q_pos(0) << "\t" << robot_q_pos(1) << "\t" << robot_q_pos(2) << "\t" << robot_q_pos(3) << "\t" << robot_q_pos(4) << "\t" << robot_q_pos(5)  << "\t" << robot_q_pos(6) << "\n"; 
-
-            double kp = 250.0;      
-            double kv = 45.0;      
-            double kvj = 10;
-
-            Vector3d pos_desired = Vector3d(0.3, 0.1, 0.5) + 0.1 * Vector3d(sin(M_PI * time), cos(M_PI * time), 0); 
-            Jv = robot->Jv(link_name, pos_in_link);
-            J_bar = robot->dynConsistentInverseJacobian(Jv);
-            N = robot->nullspaceMatrix(Jv);
-            VectorXd p = J_bar.transpose() * robot->jointGravityVector();
-            VectorXd F = kp * (pos_desired - robot->position(link_name, pos_in_link)) - kv * robot->linearVelocity(link_name, pos_in_link) + p;
-            control_torques = Jv.transpose() * F - N.transpose() * robot->M() * kvj * robot->dq();
-
-            // part iii
-
-            Vector3d ee_pos = robot->position(link_name, pos_in_link);
-            VectorXd robot_q_pos  = robot->q();
-            file_4_iii << time << "\t" << ee_pos(0)  << "\t" << ee_pos(1) << "\t" << ee_pos(2) << "\t" << robot_q_pos(0) << "\t" << robot_q_pos(1) << "\t" << robot_q_pos(2) << "\t" << robot_q_pos(3) << "\t" << robot_q_pos(4) << "\t" << robot_q_pos(5)  << "\t" << robot_q_pos(6) << "\n"; 
-
-            double kp = 250.0;      
-            double kv = 45.0;     
-            double kvj = 10;          
-            double kpj = 10;
-
-            Vector3d pos_desired = Vector3d(0.3, 0.1, 0.5) + 0.1 * Vector3d(sin(M_PI * time), cos(M_PI * time), 0); 
-            Jv = robot->Jv(link_name, pos_in_link);
-            J_bar = robot->dynConsistentInverseJacobian(Jv);
-            N = robot->nullspaceMatrix(Jv);
-            VectorXd p = J_bar.transpose() * robot->jointGravityVector();
-            VectorXd F = Lambda * (kp * (pos_desired - robot->position(link_name, pos_in_link)) - kv * robot->linearVelocity(link_name, pos_in_link)) + p;
-            VectorXd q_desired = initial_q;
-            q_desired << 0,0,0,0,0,0,0;
-            control_torques = Jv.transpose() * F - N.transpose() * robot->M() * (kvj * robot->dq() + kpj * (robot->q() - q_desired));
+            // Vector3d pos_desired = Vector3d(0.3, 0.1, 0.5) + 0.1 * Vector3d(sin(M_PI * time), cos(M_PI * time), 0); 
+            // Jv = robot->Jv(link_name, pos_in_link);
+            // Lambda = robot->taskInertiaMatrix(Jv);
+            // J_bar = robot->dynConsistentInverseJacobian(Jv);
+            // N = robot->nullspaceMatrix(Jv);
+            // VectorXd p = J_bar.transpose() * robot->jointGravityVector();
+            // VectorXd F = Lambda * (kp * (pos_desired - robot->position(link_name, pos_in_link)) - kv * robot->linearVelocity(link_name, pos_in_link)) + p;
+            // control_torques = Jv.transpose() * F - N.transpose() * robot->M() * kvj * robot->dq();
 
 
-            // part iv
+            // // part ii
 
-            Vector3d ee_pos = robot->position(link_name, pos_in_link);
-            VectorXd robot_q_pos  = robot->q();
-            file_4_iv << time << "\t" << ee_pos(0)  << "\t" << ee_pos(1) << "\t" << ee_pos(2) << "\t" << robot_q_pos(0) << "\t" << robot_q_pos(1) << "\t" << robot_q_pos(2) << "\t" << robot_q_pos(3) << "\t" << robot_q_pos(4) << "\t" << robot_q_pos(5)  << "\t" << robot_q_pos(6) << "\n"; 
+            // Vector3d ee_pos = robot->position(link_name, pos_in_link);
+            // VectorXd robot_q_pos  = robot->q();
+            // file_4_ii << time << "\t" << ee_pos(0)  << "\t" << ee_pos(1) << "\t" << ee_pos(2) << "\t" << robot_q_pos(0) << "\t" << robot_q_pos(1) << "\t" << robot_q_pos(2) << "\t" << robot_q_pos(3) << "\t" << robot_q_pos(4) << "\t" << robot_q_pos(5)  << "\t" << robot_q_pos(6) << "\n"; 
 
-            double kp = 250.0;      
-            double kv = 45.0;      // chose your d gain
-            double kvj = 10;
-            double kpj = 10;
+            // double kp = 250.0;      
+            // double kv = 45.0;      
+            // double kvj = 10;
 
-            Vector3d pos_desired = Vector3d(0.3, 0.1, 0.5) + 0.1 * Vector3d(sin(M_PI * time), cos(M_PI * time), 0); 
-            Jv = robot->Jv(link_name, pos_in_link);
-            J_bar = robot->dynConsistentInverseJacobian(Jv);
-            N = robot->nullspaceMatrix(Jv);
-            VectorXd p = J_bar.transpose() * robot->jointGravityVector();
-            VectorXd F = Lambda * (kp * (pos_desired - robot->position(link_name, pos_in_link)) - kv * robot->linearVelocity(link_name, pos_in_link)) + p;
-            VectorXd q_desired = initial_q;
-            q_desired << 0,0,0,0,0,0,0;
-            control_torques = Jv.transpose() * F - N.transpose() * robot->M() * (kvj * robot->dq() + kpj * (robot->q() - q_desired)) + robot->jointGravityVector();
+            // Vector3d pos_desired = Vector3d(0.3, 0.1, 0.5) + 0.1 * Vector3d(sin(M_PI * time), cos(M_PI * time), 0); 
+            // Jv = robot->Jv(link_name, pos_in_link);
+            // J_bar = robot->dynConsistentInverseJacobian(Jv);
+            // N = robot->nullspaceMatrix(Jv);
+            // VectorXd p = J_bar.transpose() * robot->jointGravityVector();
+            // VectorXd F = kp * (pos_desired - robot->position(link_name, pos_in_link)) - kv * robot->linearVelocity(link_name, pos_in_link) + p;
+            // control_torques = Jv.transpose() * F - N.transpose() * robot->M() * kvj * robot->dq();
+
+            // // part iii
+
+            // Vector3d ee_pos = robot->position(link_name, pos_in_link);
+            // VectorXd robot_q_pos  = robot->q();
+            // file_4_iii << time << "\t" << ee_pos(0)  << "\t" << ee_pos(1) << "\t" << ee_pos(2) << "\t" << robot_q_pos(0) << "\t" << robot_q_pos(1) << "\t" << robot_q_pos(2) << "\t" << robot_q_pos(3) << "\t" << robot_q_pos(4) << "\t" << robot_q_pos(5)  << "\t" << robot_q_pos(6) << "\n"; 
+
+            // double kp = 250.0;      
+            // double kv = 45.0;     
+            // double kvj = 10;          
+            // double kpj = 10;
+
+            // Vector3d pos_desired = Vector3d(0.3, 0.1, 0.5) + 0.1 * Vector3d(sin(M_PI * time), cos(M_PI * time), 0); 
+            // Jv = robot->Jv(link_name, pos_in_link);
+            // J_bar = robot->dynConsistentInverseJacobian(Jv);
+            // N = robot->nullspaceMatrix(Jv);
+            // VectorXd p = J_bar.transpose() * robot->jointGravityVector();
+            // VectorXd F = Lambda * (kp * (pos_desired - robot->position(link_name, pos_in_link)) - kv * robot->linearVelocity(link_name, pos_in_link)) + p;
+            // VectorXd q_desired = initial_q;
+            // q_desired << 0,0,0,0,0,0,0;
+            // control_torques = Jv.transpose() * F - N.transpose() * robot->M() * (kvj * robot->dq() + kpj * (robot->q() - q_desired));
+
+
+            // // part iv
+
+            // Vector3d ee_pos = robot->position(link_name, pos_in_link);
+            // VectorXd robot_q_pos  = robot->q();
+            // file_4_iv << time << "\t" << ee_pos(0)  << "\t" << ee_pos(1) << "\t" << ee_pos(2) << "\t" << robot_q_pos(0) << "\t" << robot_q_pos(1) << "\t" << robot_q_pos(2) << "\t" << robot_q_pos(3) << "\t" << robot_q_pos(4) << "\t" << robot_q_pos(5)  << "\t" << robot_q_pos(6) << "\n"; 
+
+            // double kp = 250.0;      // increase this to better track the trajectory 
+            // double kv = 45.0;      // reduce this to reduce the damping. 
+            // double kvj = 10;        // If I reduce it, it will increase the damping. 
+            // double kpj = 10;       // this can be increased to like 20. 
+
+            // Vector3d pos_desired = Vector3d(0.3, 0.1, 0.5) + 0.1 * Vector3d(sin(M_PI * time), cos(M_PI * time), 0); 
+            // Jv = robot->Jv(link_name, pos_in_link);
+            // J_bar = robot->dynConsistentInverseJacobian(Jv);
+            // N = robot->nullspaceMatrix(Jv);
+            // VectorXd p = J_bar.transpose() * robot->jointGravityVector();
+            // VectorXd F = Lambda * (kp * (pos_desired - robot->position(link_name, pos_in_link)) - kv * robot->linearVelocity(link_name, pos_in_link)) + p;
+            // VectorXd q_desired = initial_q;
+            // q_desired << 0,0,0,0,0,0,0;
+            // control_torques = Jv.transpose() * F - N.transpose() * robot->M() * (kvj * robot->dq() + kpj * (robot->q() - q_desired)) + robot->jointGravityVector();
         }
 
         // **********************
